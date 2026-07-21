@@ -1,7 +1,4 @@
-/* =========================================================
-   CUSTOMIZATION — change these two values to personalize
-   the entire website. Everything downstream reacts to them.
-   ========================================================= */
+
 const personName = "Rem";
 
 const birthdayMessage =
@@ -24,7 +21,7 @@ Enjoy your special day!
 
 Have an amazing birthday!
 
-Thank you
+Thank you and take care always
 
 -Lucky`;
 
