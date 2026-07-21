@@ -2,23 +2,27 @@
    CUSTOMIZATION — change these two values to personalize
    the entire website. Everything downstream reacts to them.
    ========================================================= */
-const personName = "Rem";
+const personName = "Princess Sophia";
 
 const birthdayMessage =
 `Hey ${personName} ❤️
 
 Happy Birthday!
 
-May god bless you
-and give u many happiness
-Just saying.... You're pretty awesome
-Sending good vibes and maybe a wink 
-Hope you have a great day <3
+May your day be filled with laughter,
+love, happiness,
+good health,
+and countless blessings.
 
-Enjoy your special day
+Thank you for being such a wonderful person.
 
--Lucky
-`;
+I hope every dream you have comes true.
+
+Enjoy your special day!
+
+Have an amazing birthday!
+
+Love always ❤️`;
 
 const LEAF_COLORS = [
   "#ff4f94", "#ff6699", "#ff8abf", "#ff5a8b",
