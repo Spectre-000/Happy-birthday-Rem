@@ -2,7 +2,7 @@
    CUSTOMIZATION — change these two values to personalize
    the entire website. Everything downstream reacts to them.
    ========================================================= */
-const personName = "Princess Sophia";
+const personName = "Rem";
 
 const birthdayMessage =
 `Hey ${personName} ❤️
@@ -16,13 +16,17 @@ and countless blessings.
 
 Thank you for being such a wonderful person.
 
+I just want you to know that I really appreciate you
+
 I hope every dream you have comes true.
 
 Enjoy your special day!
 
 Have an amazing birthday!
 
-Love always ❤️`;
+Thank you
+
+-Lucky`;
 
 const LEAF_COLORS = [
   "#ff4f94", "#ff6699", "#ff8abf", "#ff5a8b",
@@ -97,7 +101,7 @@ function spawnBackgroundHeart(boosted = false) {
 
 function startBackgroundHearts(boosted = false) {
   if (bgHeartsIntervalId) clearInterval(bgHeartsIntervalId);
-  const rate = boosted ? 380 : 900;
+  const rate = boosted ? 600 : 900;
   bgHeartsIntervalId = setInterval(() => spawnBackgroundHeart(boosted), rate);
 }
 
@@ -268,16 +272,22 @@ function heartShapePoints(count) {
 }
 
 function growBlossom() {
+  // pause the ambient background hearts during the busiest moment -
+  // hundreds of leaves are about to animate in, no need for extra work in parallel
+  if (bgHeartsIntervalId) clearInterval(bgHeartsIntervalId);
+
   const treeRect = treeSvg.getBoundingClientRect();
   const centerX = treeRect.left + treeRect.width / 2;
   const centerY = treeRect.top + treeRect.height * 0.16;
   const scale = Math.min(window.innerWidth * 0.85, 360) / 2.6;
 
-  const leafCount = 420;
+  const leafCount = 350;
   const points = heartShapePoints(leafCount);
-  const maxStagger = 1900;
+  const maxStagger = 3000;
+  const fragment = document.createDocumentFragment();
+  const leaves = [];
 
-  points.forEach((pt, i) => {
+  points.forEach((pt) => {
     const leaf = document.createElement("div");
     leaf.className = "leaf-heart";
     leaf.textContent = "❤";
@@ -289,8 +299,14 @@ function growBlossom() {
     leaf.style.transform = `translate(${startX}px, ${startY}px) scale(0.2) rotate(${Math.random() * 360}deg)`;
     leaf.style.opacity = "0";
 
-    blossomLayer.appendChild(leaf);
+    fragment.appendChild(leaf);
+    leaves.push({ el: leaf, pt });
+  });
 
+  // one single DOM mutation for all 380 leaves instead of 380 separate reflows
+  blossomLayer.appendChild(fragment);
+
+  leaves.forEach(({ el, pt }, i) => {
     const targetX = centerX + pt.x * scale;
     const targetY = centerY - pt.y * scale;
     const finalScale = 0.75 + Math.random() * 0.5;
@@ -298,8 +314,12 @@ function growBlossom() {
     const delay = (i / leafCount) * maxStagger;
 
     schedule(() => {
-      leaf.style.transform = `translate(${targetX}px, ${targetY}px) scale(${finalScale}) rotate(${finalRotate}deg)`;
-      leaf.style.opacity = "0.95";
+      // promote to its own GPU layer only while it's actively animating,
+      // then hand it back so the browser isn't juggling hundreds of layers forever
+      el.style.willChange = "transform, opacity";
+      el.style.transform = `translate(${targetX}px, ${targetY}px) scale(${finalScale}) rotate(${finalRotate}deg)`;
+      el.style.opacity = "0.95";
+      el.addEventListener("transitionend", () => { el.style.willChange = "auto"; }, { once: true });
     }, delay);
   });
 
@@ -321,7 +341,7 @@ function gentleZoom() {
 function decorateTreeWithSparklesAndParticles() {
   const treeRect = treeSvg.getBoundingClientRect();
 
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < 12; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "tree-sparkle";
     sparkle.style.left = `${treeRect.left + Math.random() * treeRect.width}px`;
@@ -330,7 +350,7 @@ function decorateTreeWithSparklesAndParticles() {
     sparkleLayer.appendChild(sparkle);
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 6; i++) {
     const particle = document.createElement("div");
     particle.className = "glow-particle";
     particle.style.left = `${treeRect.left + Math.random() * treeRect.width}px`;
