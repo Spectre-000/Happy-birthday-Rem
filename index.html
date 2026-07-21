@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Happy Birthday 💗</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================================================
+       BACKGROUND LAYERS
+       =================================================== -->
+  <div class="bg-gradient"></div>
+  <div class="bg-hearts" id="bgHearts" aria-hidden="true"></div>
+
+  <!-- Confetti canvas sits above everything but ignores clicks -->
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+  <!-- ===================================================
+       MAIN STAGE
+       =================================================== -->
+  <main class="stage" id="stage">
+
+    <!-- STEP 1: tappable glowing heart -->
+    <section class="tap-scene" id="tapScene">
+      <div class="heart-glow-wrap">
+        <div class="heart-shape big-heart" id="mainHeart"></div>
+      </div>
+      <p class="tap-label" id="tapLabel">Tap the Heart ❤️</p>
+    </section>
+
+    <!-- STEP 3: SVG tree, drawn with stroke animation -->
+    <svg class="tree-svg" id="treeSvg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="trunkGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#e8799f" />
+          <stop offset="100%" stop-color="#ffb3d9" />
+        </linearGradient>
+      </defs>
+      <g id="treeGroup" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- trunk + branch paths are injected by script.js -->
+      </g>
+    </svg>
+
+    <!-- STEP 4: container that will hold the hundreds of tiny heart leaves -->
+    <div class="blossom-layer" id="blossomLayer" aria-hidden="true"></div>
+
+    <!-- STEP 5: sparkles + gentle glow particles around the finished tree -->
+    <div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
+    <div class="particle-layer" id="particleLayer" aria-hidden="true"></div>
+
+    <!-- STEP 6 + 7: glassmorphism message card -->
+    <section class="message-card" id="messageCard">
+      <h1 class="card-heading" id="cardHeading">
+        Happy Birthday<br /><span class="name-highlight" id="nameHighlight"></span>
+      </h1>
+      <p class="typewriter" id="typewriterText" aria-live="polite"></p>
+
+      <!-- STEP 9: replay button -->
+      <button class="replay-btn" id="replayBtn" type="button">❤️ Watch Again</button>
+    </section>
+
+  </main>
+
+  <!-- background music, muted/paused until the heart is tapped -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
